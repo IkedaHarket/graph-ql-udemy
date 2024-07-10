@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout Code
       uses: actions/checkout@v4
       with:
         fetch-dephs: 0
@@ -23,6 +23,12 @@ jobs:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
       run: |
-        echo "Iniciando login..."
         docker login -u $DOCKER_USER -p $DOCKER_TOKEN
-        echo "Fin del login"
+
+    - name: Build Docker Image
+      run: |
+        docker build -t ikedaharket/docker-graphql:0.0.2 .
+
+    - name: Push Docker Image
+      run: |
+        docker push ikedaharket/docker-graphql:0.0.2 .
